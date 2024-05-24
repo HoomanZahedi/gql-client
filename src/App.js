@@ -8,6 +8,7 @@ import CreateJobPage from './pages/CreateJobPage';
 import HomePage from './pages/HomePage';
 import JobPage from './pages/JobPage';
 import LoginPage from './pages/LoginPage';
+import UpdateJobPage from './pages/updateJob';
 
 function App() {
   const navigate = useNavigate();
@@ -39,6 +40,9 @@ function App() {
           />
           <Route path="/jobs/:jobId"
             element={<JobPage />}
+          />
+          <Route path="/updateJob/:jobId"
+            element={<UpdateJobPage />}
           />
           <Route path="/login"
             element={<LoginPage onLogin={handleLogin} />}

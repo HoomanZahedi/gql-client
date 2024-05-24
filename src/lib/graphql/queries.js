@@ -37,6 +37,60 @@ export async function getJobById(jobId) {
   return data.singleJob;
 }
 
+export async function createJob({title,description}){
+  const mutation = gql`
+    mutation( $createJobInput2: createJobInput!){
+      createJob(input: $createJobInput2) {
+        id,
+        title,
+        description
+      }
+    }
+  `;
+  const data = await client.request(mutation, {
+    createJobInput2: {
+    title:title,
+    description:description
+  }
+   });
+  return data;
+}
+export async function updateJob({id,title,description}){
+  const mutation = gql`
+    mutation( $UpdateJobInput: updateJobInput!){
+      updateJob(input: $UpdateJobInput) {
+        id,
+        title,
+        description
+      }
+    }
+  `;
+  const data = await client.request(mutation, {
+    UpdateJobInput: {
+    id:id,
+    title:title,
+    description:description
+  }
+   });
+  return data;
+}
+
+export async function deleteJob(id){
+  const mutation = gql`
+    mutation($deleteJobId: ID! ){
+        deleteJob(id: $deleteJobId) {
+          title
+          description
+          id
+        }
+      }
+  `
+  const data = await client.request(mutation, {
+    deleteJobId: id
+   });
+  return data;
+}
+
 export async function getCompanyById(companyId) {
   const query = gql`
     query singleCompany($id: ID!) {

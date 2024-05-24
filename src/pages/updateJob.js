@@ -1,21 +1,34 @@
-import { useState } from 'react';
-import { createJob } from '../lib/graphql/queries';
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { createJob, getJobById, updateJob } from '../lib/graphql/queries';
+import { useNavigate, useParams } from 'react-router';
 
-function CreateJobPage() {
+function UpdateJobPage() {
+  const { jobId } = useParams();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const navigate = useNavigate()
+
+  useEffect(() => {
+    getJob()
+  }, [])
+
+  const getJob = async()=>{
+    const job = await getJobById(jobId);
+    setTitle(job.title)
+    setDescription(job.description)
+  };
+
   const handleSubmit = async(event) => {
     event.preventDefault();
-    const job = await createJob({title,description})
-    navigate(`/jobs/${job.id}`)
+    const job = await updateJob({id:jobId,title,description})
+    console.log(job)
+    navigate(`/`)
   };
 
   return (
     <div>
       <h1 className="title">
-        New Job
+        update Job
       </h1>
       <div className="box">
         <form>
@@ -42,7 +55,7 @@ function CreateJobPage() {
           <div className="field">
             <div className="control">
               <button className="button is-link" onClick={handleSubmit}>
-                Submit
+                update
               </button>
             </div>
           </div>
@@ -52,4 +65,4 @@ function CreateJobPage() {
   );
 }
 
-export default CreateJobPage;
+export default UpdateJobPage;
